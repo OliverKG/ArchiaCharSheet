@@ -1,0 +1,86 @@
+.column.left {
+    float: left;
+    width: 20%;
+  }
+
+  .column.middle {
+    float: middle;
+    width: 40%;
+  }
+
+  .column.right {
+    float: left;
+    width: 40%;
+  }
+
+.charsheet button[type="action"].statButton:hover {
+    background-position: 0;
+}
+ 
+.charsheet button[type="action"].statButton.off {
+    content: "";
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    width: 26px;
+    height: 26px;
+    border-style: none;
+    background-color: transparent;
+    margin-left: 0px;
+    background-position: 0;
+}
+ 
+.charsheet button[type="action"].statButton.on {
+    content: "";
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    width: 26px;
+    height: 26px;
+    border-style: none;
+    background-color: transparent;
+    margin-left: 0px;
+    background-position: 0;
+}
+ 
+.charsheet button[type="action"].d4.off {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d4_white.svg");
+}
+ 
+.charsheet button[type="action"].d4.on {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d4_black.svg");
+}
+ 
+.charsheet button[type="action"].d6.off {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d6_white.svg");
+}
+ 
+.charsheet button[type="action"].d6.on {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d6_black.svg");
+}
+ 
+.charsheet button[type="action"].d8.off {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d8_white.svg");
+}
+ 
+.charsheet button[type="action"].d8.on {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d8_black.svg");
+}
+ 
+.charsheet button[type="action"].d10.off {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d10_white.svg");
+}
+ 
+.charsheet button[type="action"].d10.on {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d10_black.svg");
+}
+ 
+.charsheet button[type="action"].d12.off {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d12_white.svg");
+}
+ 
+.charsheet button[type="action"].d12.on {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/d12_black.svg");
+}
+
+.charsheet .hidden {
+    display: none;
+}
