@@ -191,7 +191,11 @@ for x in range(repeating_abilities_index+1,len(html)):
     if(html[x] == "  <!--repeating_abilities code below this will not be modified by script-->"):
         del html[repeating_abilities_index+1:x]
         break
-repeating_abilities = "<input name=\"attr_ability\" title=\"\" type=\"text\" value=\"\" />\n  <input type=\"hidden\" value=0 name=\"attr_abilityAPcost\" >\n  <input type=\"hidden\" value=0 name=\"attr_abilitySPcost\" >\n\n  <br>Source: <select name=\"attr_abilitySource\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
+
+print(html[repeating_abilities_index])
+print(html[repeating_abilities_index+1])
+
+repeating_abilities = "  <input name=\"attr_ability\" title=\"\" type=\"text\" value=\"\" />\n  <input type=\"hidden\" value=0 name=\"attr_abilityAPcost\" >\n  <input type=\"hidden\" value=0 name=\"attr_abilitySPcost\" >\n\n  <br>Source: <select name=\"attr_abilitySource\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
 for key in sources:
     repeating_abilities += "    <option value=\"" + key + "\">" + key + "</option>\n"
 repeating_abilities += "  </select>\n  <br>Ability Type: \n"
@@ -239,6 +243,7 @@ for ability in oneCount:
 repeating_abilities = repeating_abilities[:len(repeating_abilities)-4] + ") {\n              $20('.' + values.repeating_abilities_abilityType.toLowerCase()).removeClass(\"hidden\");\n          }\n          setAttrs({\"abilitySubType\":abilitySubTypes[values.repeating_abilities_abilityType]});\n      })"
 html.insert(repeating_abilities_index+1,repeating_abilities)
 
+#making the filetext and writing it to a file
 filetext = ""
 for line in html:
     filetext += line + "\n"
