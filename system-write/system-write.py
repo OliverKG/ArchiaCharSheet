@@ -1,5 +1,6 @@
 import gspread
 import os
+from git import Repo
 
 gc = gspread.service_account()
 
@@ -246,7 +247,17 @@ f = open("../archia-charsheet.html", "w")
 f.write(filetext)
 f.close()
 
-os.system("git add -A")
-os.system("git commit -m \"update\"")
-os.system("git push origin main")
-os.system("Germophile")
+path_to_git = r"../.git"
+commit_message = "commit from python script"
+
+def git_push():
+    try:
+        repo = Repo(path_to_git)
+        repo.git.add(update=True)
+        repo.index.commit(commit_message)
+        origin = repo.remote(name='origin')
+        origin.push()
+    except:
+        print('Some error occured while pushing the code')    
+
+git_push()
