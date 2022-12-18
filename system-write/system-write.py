@@ -1,5 +1,5 @@
 import gspread
-
+import os
 
 gc = gspread.service_account()
 
@@ -177,7 +177,7 @@ sources["a"] = sources["Arcane"]
 sources["p"] = sources["Primeval"]
 sources["m"] = sources["Mundane"] """
 
-f = open("archia-charsheet.html")
+f = open("../archia-charsheet.html")
 html = f.read()
 f.close()
 
@@ -242,6 +242,11 @@ filetext = ""
 for line in html:
     filetext += line + "\n"
 
-f = open("archia-charsheet.html", "w")
+f = open("../archia-charsheet.html", "w")
 f.write(filetext)
 f.close()
+
+os.system("git add -A")
+os.system("git commit -m \"update\"")
+os.system("git push origin main")
+os.system("Germophile")
