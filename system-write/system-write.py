@@ -192,21 +192,18 @@ for x in range(repeating_abilities_index+1,len(html)):
         del html[repeating_abilities_index+1:x]
         break
 
-print(html[repeating_abilities_index])
-print(html[repeating_abilities_index+1])
-
-repeating_abilities = "  <input name=\"attr_ability\" title=\"\" type=\"text\" value=\"\" />\n  <input type=\"hidden\" value=0 name=\"attr_abilityAPcost\" >\n  <input type=\"hidden\" value=0 name=\"attr_abilitySPcost\" >\n\n  <br>Source: <select name=\"attr_abilitySource\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
+repeating_abilities = "  <input name=\"attr_ability\" title=\"\" type=\"text\" value=\"\" class=\"edit\"/>\n  <input type=\"hidden\" value=0 name=\"attr_abilityAPcost\" >\n  <input type=\"hidden\" value=0 name=\"attr_abilitySPcost\" >\n\n  <br>Source: <select name=\"attr_abilitySource\" class =\"edit\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
 for key in sources:
     repeating_abilities += "    <option value=\"" + key + "\">" + key + "</option>\n"
 repeating_abilities += "  </select>\n  <br>Ability Type: \n"
 for key in sources:
-    repeating_abilities += "  <select name=\"attr_abilityType\" class=\"abilityType " + key.lower() + " hidden\">\n"
+    repeating_abilities += "  <select name=\"attr_abilityType\" class=\"abilityType " + key.lower() + " hidden edit\">\n"
     for ability in sources[key].abilityTypes:
         repeating_abilities += "    <option value=\"" + ability.name + "\">" + ability.name + "</option>\n"
     repeating_abilities += "  </select>\n"
 repeating_abilities += "\n"
 for ability in abilities:
-    repeating_abilities += "  <select name=\"attr_abilitySubType\" class =\"abilitySubType " + ability.name.lower() + " hidden\">\n"
+    repeating_abilities += "  <select name=\"attr_abilitySubType\" class =\"abilitySubType " + ability.name.lower() + " hidden edit\">\n"
     for subtype in ability.subtypes:
         repeating_abilities += "    <option value=\"" + subtype.name + "\">" + subtype.name + "</option>\n"
     repeating_abilities += "  </select>\n"
