@@ -1,14 +1,8 @@
-import sys
+import gspread
 
-file = sys.argv[1]
+gc = gspread.service_account()
 
-f = open(file)
-table = f.read()
-f.close()
-
-table = table.split("\n")
-for x in range(len(table)):
-    table[x] = table[x].split("\t")
+table = gc.open_by_key("1Xx0MkkUTST5Th5Q6aNJObXq9fn5k5P0E8xQcO1HHeVw").sheet1.get_values()
 
 class Ability_Type:
     def __init__(self,name,d,f,a,p,m,description):
@@ -159,3 +153,94 @@ while(len(table)>0):
 
 for ability in abilities:
     print(ability.gmbinder())
+
+class Source:
+    def __init__(self, name, letter,abilities):
+        self.name = name
+        self.abilityTypes = []
+        for ability in abilities:
+            if letter in ability.sources:
+                self.abilityTypes.append(ability)
+
+sources = {
+    "Divine":Source("Divine","d",abilities),
+    "Profane":Source("Profane","f",abilities),
+    "Arcane":Source("Arcane","a",abilities),
+    "Primeval":Source("Primeval","p",abilities),
+    "Mundane":Source("Mundane","m",abilities)
+}
+""" 
+sources["d"] = sources["Divine"]
+sources["f"] = sources["Profane"]
+sources["a"] = sources["Arcane"]
+sources["p"] = sources["Primeval"]
+sources["m"] = sources["Mundane"] """
+
+f = open("archia-charsheet.html")
+html = f.read()
+f.close()
+
+
+html = html.split("\n")
+
+#write repeating_abilities html
+repeating_abilities_index = html.index("<fieldset class=\"repeating_abilities\">")
+for x in range(repeating_abilities_index+1,len(html)):
+    if(html[x] == "  <!--repeating_abilities code below this will not be modified by script-->"):
+        del html[repeating_abilities_index+1:x]
+        break
+repeating_abilities = "<input name=\"attr_ability\" title=\"\" type=\"text\" value=\"\" />\n  <input type=\"hidden\" value=0 name=\"attr_abilityAPcost\" >\n  <input type=\"hidden\" value=0 name=\"attr_abilitySPcost\" >\n\n  <br>Source: <select name=\"attr_abilitySource\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
+for key in sources:
+    repeating_abilities += "    <option value=\"" + key + "\">" + key + "</option>\n"
+repeating_abilities += "  </select>\n  <br>Ability Type: \n"
+for key in sources:
+    repeating_abilities += "  <select name=\"attr_abilityType\" class=\"abilityType " + key.lower() + " hidden\">\n"
+    for ability in sources[key].abilityTypes:
+        repeating_abilities += "    <option value=\"" + ability.name + "\">" + ability.name + "</option>\n"
+    repeating_abilities += "  </select>\n"
+repeating_abilities += "\n"
+for ability in abilities:
+    repeating_abilities += "  <select name=\"attr_abilitySubType\" class =\"abilitySubType " + ability.name.lower() + " hidden\">\n"
+    for subtype in ability.subtypes:
+        repeating_abilities += "    <option value=\"" + subtype.name + "\">" + subtype.name + "</option>\n"
+    repeating_abilities += "  </select>\n"
+html.insert(repeating_abilities_index+1,repeating_abilities)
+
+#write repeating_abilities javascript
+repeating_abilities_index = html.index("    on(\"change:repeating_abilities:abilitySource\", function() {")
+for x in range(repeating_abilities_index+1,len(html)):
+    if(html[x] == "  })"):
+        del html[repeating_abilities_index+1:x]
+        break
+repeating_abilities = "      getAttrs([\"repeating_abilities_abilitySource\",\"repeating_abilities_abilityType\"], function(values) {\n          var abilityTypes = {\n"
+for key in sources:
+    repeating_abilities += "              \"" + key + "\":[\""
+    for ability in sources[key].abilityTypes:
+        repeating_abilities += ability.name + "\",\""
+    repeating_abilities = repeating_abilities[:len(repeating_abilities)-2] +"],\n"
+repeating_abilities = repeating_abilities[:len(repeating_abilities)-2] + "\n          };\n          $20('.abilityType').addClass(\"hidden\");\n          $20('.' + values.repeating_abilities_abilitySource.toLowerCase()).removeClass(\"hidden\");\n          if(!abilityTypes[values.repeating_abilities_abilitySource].includes(values.repeating_abilities_abilityType)) {\n              setAttrs({\"abilityType\":\"Attack\"});\n              setAttrs({\"abilitySubType\":\"Attack\"});\n              $20('.abilitySubType').addClass(\"hidden\");\n          }\n      })"
+html.insert(repeating_abilities_index+1,repeating_abilities)
+
+repeating_abilities_index = html.index("  on(\"change:repeating_abilities:abilityType\", function() {")
+for x in range(repeating_abilities_index+1,len(html)):
+    if(html[x] == "  })"):
+        del html[repeating_abilities_index+1:x]
+        break
+repeating_abilities = "      getAttrs([\"repeating_abilities_abilityType\"], function(values) {\n          var abilitySubTypes = {\n"
+oneCount = []
+for ability in abilities:
+    repeating_abilities += "              \"" + ability.name + "\":\"" + ability.subtypes[0].name + "\",\n"
+    if(len(ability.subtypes) == 1): oneCount.append(ability)
+repeating_abilities = repeating_abilities[:len(repeating_abilities)-2] + "\n          };\n          $20('.abilitySubType').addClass(\"hidden\");\n          if("
+for ability in oneCount:
+    repeating_abilities += "values.repeating_abilities_abilityType.toLowerCase() != \"" + ability.name.lower() + "\" && "
+repeating_abilities = repeating_abilities[:len(repeating_abilities)-4] + ") {\n              $20('.' + values.repeating_abilities_abilityType.toLowerCase()).removeClass(\"hidden\");\n          }\n          setAttrs({\"abilitySubType\":abilitySubTypes[values.repeating_abilities_abilityType]});\n      })"
+html.insert(repeating_abilities_index+1,repeating_abilities)
+
+filetext = ""
+for line in html:
+    filetext += line + "\n"
+
+f = open("archia-charsheet.html", "w")
+f.write(filetext)
+f.close()
