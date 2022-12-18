@@ -186,13 +186,13 @@ f.close()
 html = html.split("\n")
 
 #write repeating_abilities html
-repeating_abilities_index = html.index("<fieldset class=\"repeating_abilities\">")
+repeating_abilities_index = html.index("  <!--repeating_abilities code below this will be modified by script-->")
 for x in range(repeating_abilities_index+1,len(html)):
-    if(html[x] == "  <!--repeating_abilities code below this will not be modified by script-->"):
+    if(html[x] == "  <!--repeating_abilities code above this will be modified by script-->"):
         del html[repeating_abilities_index+1:x]
         break
 
-repeating_abilities = "  <input name=\"attr_ability\" title=\"\" type=\"text\" value=\"\" class=\"edit\"/>\n  <input type=\"hidden\" value=0 name=\"attr_abilityAPcost\" >\n  <input type=\"hidden\" value=0 name=\"attr_abilitySPcost\" >\n\n  <br>Source: <select name=\"attr_abilitySource\" class =\"edit\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
+repeating_abilities = "  <br>Source: <select name=\"attr_abilitySource\" class =\"edit\">\n    <option value=\"None\" selected=\"selected\"></option>\n"
 for key in sources:
     repeating_abilities += "    <option value=\"" + key + "\">" + key + "</option>\n"
 repeating_abilities += "  </select>\n  <br>Ability Type: \n"

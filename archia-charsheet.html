@@ -99,10 +99,16 @@ Mundane <input type="number" class="editor hidden" name="attr_mundane" step="2" 
 <h2>Abilities</h2>
 
 <fieldset class="repeating_abilities">
+
+  <h3><span name="attr_ability"></span></h3>
+  Source: <span name="attr_abilitySource"></span><br>
+  <span name="attr_abilityType"></span> (<span name="attr_abilitySubType"></span>)
+
   <input name="attr_ability" title="" type="text" value="" class="edit"/>
   <input type="hidden" value=0 name="attr_abilityAPcost" >
   <input type="hidden" value=0 name="attr_abilitySPcost" >
 
+  <!--repeating_abilities code below this will be modified by script-->
   <br>Source: <select name="attr_abilitySource" class ="edit">
     <option value="None" selected="selected"></option>
     <option value="Divine">Divine</option>
@@ -205,11 +211,13 @@ Mundane <input type="number" class="editor hidden" name="attr_mundane" step="2" 
     <option value="Status Condition">Status Condition</option>
   </select>
 
-  <!--repeating_abilities code below this will not be modified by script-->
+  <!--repeating_abilities code above this will be modified by script-->
 
-  @{abilitySubType}
+  
 
   <textarea name="attr_ability_desc" class="edit"></textarea>
+
+  
 
 </fieldset>
 
@@ -407,6 +415,7 @@ Mundane <input type="number" class="editor hidden" name="attr_mundane" step="2" 
   })
 
     </script>
+
 
 
 
