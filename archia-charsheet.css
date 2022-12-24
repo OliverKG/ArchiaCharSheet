@@ -84,3 +84,46 @@
 .charsheet .hidden {
     display: none;
 }
+
+.charsheet button[type="action"].editIcon {
+    background-image: url("https://raw.githubusercontent.com/Germophile/ArchiaCharSheet/main/images/edit-icon-pencil.svg");
+    content: "";
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    width: 9px;
+    height: 9px;
+    border-style: none;
+    background-color: transparent;
+    margin-left: 0px;
+    background-position: -15;
+    padding: 10px;
+    margin-top: 0px;
+}
+
+.charsheet  input.editing[value="false"] ~ div.editor {
+    display: none
+}
+
+.charsheet  input.source:not([value="divine"]) ~ div.editor > span.divine {
+    display: none
+}
+
+.charsheet  input.source:not([value="profane"]) ~ div.editor > span.profane {
+    display: none
+}
+
+.charsheet  input.source:not([value="arcane"]) ~ div.editor > span.arcane {
+    display: none
+}
+
+.charsheet  input.source:not([value="primeval"]) ~ div.editor > span.primeval {
+    display: none
+}
+
+.charsheet  input.source:not([value="mundane"]) ~ div.editor > span.mundane {
+    display: none
+}
+
+.charsheet  input.type:not([value="Augmentation"]) ~ div.editor > span.Augmentation {
+    display: none
+}
